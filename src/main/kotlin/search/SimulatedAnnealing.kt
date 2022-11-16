@@ -13,30 +13,24 @@ class SimulatedAnnealing(
     private var actualState = problem.getInitialStateState()
 
     fun getResult() {
-        updateTemperature()
-        var numberOfSuccess = 0
-        var j = 0
-        do{
-            numberOfSuccess = 0
+        while (true) {
+            if(temperature == 0){
+                problem.printState(actualState)
+                return
+            }
             val states = problem.generateStates(actualState)
-            states.forEach {
-                val delta = it.cost - actualState.cost
-                if (delta <= 0 || (temperature > 0 && exp(((-delta / temperature).toDouble())) > getRandom())) {
-                    actualState = it
-                    numberOfSuccess++
-                }
+            states.sortBy { it.cost }
+            val delta = states[0].cost - actualState.cost
+            if (delta < 0 || getRandom() < exp(-delta.toDouble() / temperature)) {
+                actualState = states[0]
             }
             updateTemperature()
-            j++
-        }while(numberOfSuccess!=0)
-        println(actualState.cost)
-        problem.printState(actualState)
+        }
     }
 
 
     private fun getRandom(): Double {
-        val value = Random.nextInt(0, 8000)
-        return ((value / 8000).toDouble())
+        return Random.nextDouble(0.0, 1.0)
     }
 
     private fun updateTemperature() {

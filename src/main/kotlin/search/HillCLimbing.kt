@@ -9,8 +9,6 @@ class HillClimbing(private var problem: Problem) {
     fun getResult(){
         if(problem.objectiveTest(actualState)){
             problem.printState(actualState)
-            println()
-            println(actualState.cost)
         }
         else{
             val newStates = problem.generateStates(actualState)

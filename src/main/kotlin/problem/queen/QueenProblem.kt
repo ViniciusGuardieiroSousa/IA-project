@@ -44,7 +44,7 @@ class QueenProblem(val n: Int) : Problem {
             boardPrint.add(aux)
         }
         state.board.forEachIndexed{ index, it->
-            boardPrint[index][it] = 'R'
+            boardPrint[it][index] = 'R'
         }
         for(i in 0 until n){
             for(j in 0 until n){
@@ -52,6 +52,7 @@ class QueenProblem(val n: Int) : Problem {
             }
             println()
         }
+        println("Quantidade de ataques: " + state.cost)
     }
 
     override fun generateNewInitialState() {
